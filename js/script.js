@@ -94,7 +94,7 @@ var arrayMarkers = [
     lng: 41.859712,
     streetAddress: "",
     cityAddress: "Dire Dawa",
-    url: "whttps://www.flickr.com/photos/usarmyafrica/5117159529/in/photostream/",
+    url: "https://www.flickr.com/photos/usarmyafrica/5117159529/in/photostream/",
     id: "nav2",
     visible: ko.observable(true),
     boolTest: true
@@ -172,13 +172,45 @@ var arrayMarkers = [
 
 var headingImageView = [5, 235, 55, 170, 190, 240, -10, 10, 190];     
 var streetViewImage;
-var streetViewUrl = 'https://maps.googleapis.com/maps/api/streetview?size=180x90&location=';
+//var streetViewUrl = 'https://maps.googleapis.com/maps/api/streetview?size=180x90&location=';
 
-function determineImage() {
-    streetViewImage = streetViewUrl +
-    arrayMarkers[i].lat + ',' + arrayMarkers[i].lng +
-    '&fov=75&heading=' + headingImageView[i] + '&pitch=10';                 
-}
+//function determineImage() {
+//    streetViewImage = streetViewUrl +
+//    arrayMarkers[i].lat + ',' + arrayMarkers[i].lng +
+//    '&fov=75&heading=' + headingImageView[i] + '&pitch=10';                 
+//}
+
+function getFlickrImage() {
+                var base_url = 'https://api.flickr.com/services/rest/?';
+                var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
+                var method = 'flickr.photos.search';
+                var query =
+                    marker.title.replace(/ on| in| &/, '');
+
+                // Flickr API request url
+                var url = base_url +
+                    'method=' + method +
+                    '&api_key=' + API_KEY +
+                    '&text=' + query +
+                    '&format=json' +
+                    '&nojsoncallback=1';
+
+                $.getJSON(url, function(data) {
+                    //console.log(data);
+                    var detail = data.photos.photo[0];
+                    if (detail) {
+                        streetViewImage= '<div><strong>' + marker.title + '</strong><br>' +'</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' + detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' + detail.secret + '_n.jpg"></div>';
+                    } else {
+                        streetViewImage= '<div> Nothing Found </div>';
+                    }
+                    // Fallback for failed request to get an image
+                }).fail(function() {
+                    streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
+                });
+            }
+
+            // Invokes function declaration
+           // getFlickrImage(); Commented 27SEPT2017 BY SAMMY
 
 //Sets the arrayMarkers on the map within the initialize function
     //Sets the infoWindows to each individual marker
@@ -203,7 +235,8 @@ function setMarkers(location) {
         });
 
         //function to place google street view images within info windows
-        determineImage();
+        //determineImage();
+        getFlickrImage(); 
 
         //Binds infoWindow content to each marker
         location[i].contentString = '<img src="' + streetViewImage + 
@@ -212,6 +245,9 @@ function setMarkers(location) {
                                     location[i].streetAddress + '<br>' + 
                                     location[i].cityAddress + '<br></p><a class="web-links" href="http://' + location[i].url + 
                                     '" target="_blank">' + location[i].url + '</a>';
+
+//Testing flickr out (not yet)
+
 
         var infowindow = new google.maps.InfoWindow({
             content: arrayMarkers[i].contentString
@@ -248,6 +284,7 @@ function setMarkers(location) {
         })(location[i].holdMarker, i));
     }
 }
+
 
 //Query through the different locations from nav bar with knockout.js
     //only display arrayMarkers and nav elements that match query result

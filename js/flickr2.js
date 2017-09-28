@@ -17,7 +17,7 @@ $("#exit-modal").click(function() {
 //GET JSON from flickr
 //Display message if error getting flickr JSON
 function getFlickrImages() {
-		var flickrUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=03a2c46fc1a4fbf4936c5271a4d13e26&text=Dire+Dawa&lat=9.5898&lon=41.8629&format=json';
+		var flickrUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=ab2be4f78cbc26981e3fe484038ad122&text=National+Mall&accuracy=16&lat=38.896952&lon=-77.029713&format=json';
         $.ajax({
             url: flickrUrl,
             dataType: 'jsonp',
