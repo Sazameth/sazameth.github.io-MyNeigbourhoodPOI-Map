@@ -67,12 +67,12 @@ function setAllMap() {
 //Provides information for the arrayMarkers
 var arrayMarkers = [
     {   
-    title: "1994 AISA East Africa Teachers\u2019 conference , Addis Ababa, Ethiopia.",
-    lat: 9.0889, 
-    lng: 38.7646,
-    streetAddress: "",
-    cityAddress: "Dire_Dawa",
-    url: "http://hospitalnear.com/Ethiopia/Dire_Dawa/Sabian_Primary_Hospital@ChIJJ7Ruff_9MBYR1H8KOGWKB_U",
+    title: "National Museum of Ethiopia",
+    lat: 9.014647, 
+    lng: 38.766583,
+    streetAddress: "Tito St",
+    cityAddress: "Addis Ababa",
+    url: "https://en.wikipedia.org/wiki/National_Museum_of_Ethiopia",
     id: "nav0",
     visible: ko.observable(true),
     boolTest: true
@@ -193,7 +193,7 @@ function getFlickrImage(location) {
                     '&api_key=' + API_KEY +
                     '&text=' + query +
                     '&format=json' +
-                    '&nojsoncallback=1';
+                    '&nojsoncallback=?';
 
                 $.getJSON(url, function(data) {
                     console.log(data);
@@ -216,7 +216,7 @@ function getFlickrImage(location) {
     '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom: 5px"><strong>' +
     location.title + '</strong><br><p>' +
     location.streetAddress + '<br>' +
-    location.cityAddress + '<br></p><a class="web-links" href="http://' + location.url +
+    location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
     '" target="_blank">' + location.url + '</a>';
 
             }
