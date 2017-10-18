@@ -14,7 +14,7 @@ window.onload = loadScript;
 function initialize() {  
     var mapOptions = {
         zoom: 14,
-        center: new google.maps.LatLng(9.601992, 41.855809),
+        center: new google.maps.LatLng(9.0146, 38.7665),
         mapTypeControl: false,
         disableDefaultUI: true
     };
@@ -67,12 +67,12 @@ function setAllMap() {
 //Provides information for the arrayMarkers
 var arrayMarkers = [
     {   
-    title: "Sabian Primary Hospital",
-    lat: 9.611587, 
-    lng: 41.837198,
-    streetAddress: "",
-    cityAddress: "Dire_Dawa",
-    url: "http://hospitalnear.com/Ethiopia/Dire_Dawa/Sabian_Primary_Hospital@ChIJJ7Ruff_9MBYR1H8KOGWKB_U",
+    title: "National Museum of Ethiopia",
+    lat: 9.014647, 
+    lng: 38.766583,
+    streetAddress: "Tito St",
+    cityAddress: "Addis Ababa",
+    url: "https://en.wikipedia.org/wiki/National_Museum_of_Ethiopia",
     id: "nav0",
     visible: ko.observable(true),
     boolTest: true
@@ -180,12 +180,12 @@ var streetViewImage;
 //    '&fov=75&heading=' + headingImageView[i] + '&pitch=10';                 
 //}
 
-function getFlickrImage() {
-                var base_url = 'https://api.flickr.com/services/rest/?';
+function getFlickrImage(location){
+   var base_url = 'https://api.flickr.com/services/rest/?';
                 var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
-                var method = 'flickr.photos.search';
+                var method = 'flickr.photos.getRecent';
                 var query =
-                    marker.title.replace(/ on| in| &/, '');
+                    marker.title.replace(/ on| in| &/,''   );
 
                 // Flickr API request url
                 var url = base_url +
@@ -193,21 +193,31 @@ function getFlickrImage() {
                     '&api_key=' + API_KEY +
                     '&text=' + query +
                     '&format=json' +
-                    '&nojsoncallback=1';
+                    '&nojsoncallback=?';
 
-                $.getJSON(url, function(data) {
-                    //console.log(data);
+                $.getJSON(url,
+   function(data)   {
+      console.log(data);
                     var detail = data.photos.photo[0];
-                    if (detail) {
-                        streetViewImage= '<div><strong>' + marker.title + '</strong><br>' +'</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' + detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' + detail.secret + '_n.jpg"></div>';
-                    } else {
-                        streetViewImage= '<div> Nothing Found </div>';
-                    }
-                    // Fallback for failed request to get an image
-                }).fail(function() {
-                    streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
-                });
-            }
+                   if (detail)      {
+         streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
+        '</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' +
+        detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' +
+        detail.secret + '_n.jpg"></div>';
+      }      else      {
+         streetViewImage= '<div> Nothing Found </div>';
+      }      // Fallback for failed request to get an image
+   }   ).fail(function()   {
+      streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
+   }   );
+
+                            location.contentString = '<img src="' + streetViewImage +
+    '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
+    location.title + '</strong><br><p>' +
+    location.streetAddress + '<br>' +
+    location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
+    '" target="_blank">' + location.url + '</a>';
+}
 
             // Invokes function declaration
            // getFlickrImage(); Commented 27SEPT2017 BY SAMMY
@@ -236,15 +246,16 @@ function setMarkers(location) {
 
         //function to place google street view images within info windows
         //determineImage();
-        getFlickrImage(); 
+        getFlickrImage(location[i]); 
 
         //Binds infoWindow content to each marker
-        location[i].contentString = '<img src="' + streetViewImage + 
-                                    '" alt="Street View Image of ' + location[i].title + '"><br><hr style="margin-bottom: 5px"><strong>' + 
-                                    location[i].title + '</strong><br><p>' + 
-                                    location[i].streetAddress + '<br>' + 
-                                    location[i].cityAddress + '<br></p><a class="web-links" href="http://' + location[i].url + 
-                                    '" target="_blank">' + location[i].url + '</a>';
+        //Commented for testing
+        //location.contentString = '<img src="' + streetViewImage +
+   // '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom: 5px"><strong>' +
+    //location.title + '</strong><br><p>' +
+   // location.streetAddress + '<br>' +
+   // location.cityAddress + '<br></p><a class="web-links" href="http://' + location.url +
+   // '" target="_blank">' + location.url + '</a>';
 
 //Testing flickr out (not yet)
 
