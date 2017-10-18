@@ -180,12 +180,12 @@ var streetViewImage;
 //    '&fov=75&heading=' + headingImageView[i] + '&pitch=10';                 
 //}
 
-function getFlickrImage(location) {
-                var base_url = 'https://api.flickr.com/services/rest/?';
+function getFlickrImage(location){
+   var base_url = 'https://api.flickr.com/services/rest/?';
                 var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
-                var method = 'flickr.photos.search';
+                var method = 'flickr.photos.getRecent';
                 var query =
-                    marker.title.replace(/ on| in| &/, '');
+                    marker.title.replace(/ on| in| &/,''   );
 
                 // Flickr API request url
                 var url = base_url +
@@ -195,31 +195,29 @@ function getFlickrImage(location) {
                     '&format=json' +
                     '&nojsoncallback=?';
 
-                $.getJSON(url, function(data) {
-                    console.log(data);
+                $.getJSON(url,
+   function(data)   {
+      console.log(data);
                     var detail = data.photos.photo[0];
-                   if (detail) {
-    streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
+                   if (detail)      {
+         streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
         '</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' +
         detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' +
         detail.secret + '_n.jpg"></div>';
-
-    } else {
-                        streetViewImage= '<div> Nothing Found </div>';
-                    }
-                    // Fallback for failed request to get an image
-                }).fail(function() {
-                    streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
-                });
+      }      else      {
+         streetViewImage= '<div> Nothing Found </div>';
+      }      // Fallback for failed request to get an image
+   }   ).fail(function()   {
+      streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
+   }   );
 
                             location.contentString = '<img src="' + streetViewImage +
-    '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom: 5px"><strong>' +
+    '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
     location.title + '</strong><br><p>' +
     location.streetAddress + '<br>' +
     location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
     '" target="_blank">' + location.url + '</a>';
-
-            }
+}
 
             // Invokes function declaration
            // getFlickrImage(); Commented 27SEPT2017 BY SAMMY
