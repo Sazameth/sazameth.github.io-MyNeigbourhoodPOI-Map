@@ -67,10 +67,10 @@ function setAllMap() {
 //Provides information for the arrayMarkers
 var arrayMarkers = [
     {   
-    title: "National Museum of Ethiopia",
-    lat: 9.014647, 
-    lng: 38.766583,
-    streetAddress: "Tito St",
+    title: "DSC_4195",
+    lat: 9.038002, 
+    lng: 38.762055,
+    streetAddress: "",
     cityAddress: "Addis Ababa",
     url: "https://en.wikipedia.org/wiki/National_Museum_of_Ethiopia",
     id: "nav0",
@@ -184,19 +184,17 @@ function getFlickrImage(location){
    var base_url = 'https://api.flickr.com/services/rest/?';
                 var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
                 var method = 'flickr.photos.getRecent';
-                var query =
-                    marker.title.replace(/ on| in| &/,''   );
+                var query = marker.title.replace(/ on| in| &/,''   );
 
                 // Flickr API request url
                 var url = base_url +
                     'method=' + method +
                     '&api_key=' + API_KEY +
-                    '&text=' + query +
                     '&format=json' +
-                    '&nojsoncallback=?';
+                     '&nojsoncallback=1';
 
                 $.getJSON(url,
-   function(data)   {
+   function(data){
       console.log(data);
                     var detail = data.photos.photo[0];
                    if (detail)      {
@@ -207,16 +205,24 @@ function getFlickrImage(location){
       }      else      {
          streetViewImage= '<div> Nothing Found </div>';
       }      // Fallback for failed request to get an image
-   }   ).fail(function()   {
-      streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
-   }   );
-
-                            location.contentString = '<img src="' + streetViewImage +
+   location.contentString = '<img src="' + streetViewImage +
     '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
     location.title + '</strong><br><p>' +
     location.streetAddress + '<br>' +
     location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
     '" target="_blank">' + location.url + '</a>';
+
+   }   ).fail(function()   {
+      streetViewImage= '<div>No Flickr Image Found for ' + marker.title + '</div>';
+      location.contentString = '<img src="' + streetViewImage +
+    '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
+    location.title + '</strong><br><p>' +
+    location.streetAddress + '<br>' +
+    location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
+    '" target="_blank">' + location.url + '</a>';
+   }   );
+
+                            
 }
 
             // Invokes function declaration
@@ -246,8 +252,7 @@ function setMarkers(location) {
 
         //function to place google street view images within info windows
         //determineImage();
-        getFlickrImage(location[i]); 
-
+        getFlickrImage(location[i]);
         //Binds infoWindow content to each marker
         //Commented for testing
         //location.contentString = '<img src="' + streetViewImage +
