@@ -67,22 +67,22 @@ function setAllMap() {
 //Provides information for the arrayMarkers
 var arrayMarkers = [
     {   
-    title: "DSC_4195",
-    lat: 9.038002, 
-    lng: 38.762055,
-    streetAddress: "",
-    cityAddress: "Addis Ababa",
-    url: "https://en.wikipedia.org/wiki/National_Museum_of_Ethiopia",
+    title: "Dire Dawa Qera Condo",
+    lat: 9.606779, 
+    lng: 41.837256,
+    streetAddress: "Aba Tenna Dejazmatch Yilma Airport",
+    cityAddress: "Dire Dawa, Ethiopia",
+    url: "",
     id: "nav0",
     visible: ko.observable(true),
     boolTest: true
     },
     {   
-    title: "Bilal General Hospital",
-    lat: 9.600395, 
-    lng: 41.853211,
+    title: "Konel_DD01",
+    lat: 9.593194, 
+    lng: 41.866141,
     streetAddress: "Konel Village",
-    cityAddress: "Konel Village, Dire Dawa",
+    cityAddress: "Dire Dawa",
     url: "http://www.medpages.co.za/sf/index.php?page=organisation&orgcode=313086",
     id: "nav1",
     visible: ko.observable(true),
@@ -183,18 +183,14 @@ var streetViewImage;
 function getFlickrImage(location){
    var base_url = 'https://api.flickr.com/services/rest/?';
                 var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
-                var method = 'flickr.photos.getRecent';
-                var query = marker.title.replace(/ on| in| &/,''   );
+                var method = 'flickr.photos.search';
+                var query =
+                    marker.title.replace(/ on| in| &/,''   );
 
                 // Flickr API request url
-                var url = base_url +
-                    'method=' + method +
-                    '&api_key=' + API_KEY +
-                    '&format=json' +
-                     '&nojsoncallback=1';
+                var url1 = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=03a2c46fc1a4fbf4936c5271a4d13e26&user_id=150435328@N03&format=json&nojsoncallback=1';
 
-                $.getJSON(url,
-   function(data){
+                $.getJSON(url1, function(data){
       console.log(data);
                     var detail = data.photos.photo[0];
                    if (detail)      {
