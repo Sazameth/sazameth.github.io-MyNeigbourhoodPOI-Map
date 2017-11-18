@@ -70,6 +70,7 @@ var arrayMarkers = [
     title: "Dire Dawa Qera Condo",
     lat: 9.606779, 
     lng: 41.837256,
+    myindex: 0,
     streetAddress: "Aba Tenna Dejazmatch Yilma Airport",
     cityAddress: "Dire Dawa, Ethiopia",
     url: "",
@@ -81,6 +82,7 @@ var arrayMarkers = [
     title: "Konel_DD01",
     lat: 9.593194, 
     lng: 41.866141,
+    myindex: 1,
     streetAddress: "Konel Village",
     cityAddress: "Dire Dawa",
     url: "http://www.medpages.co.za/sf/index.php?page=organisation&orgcode=313086",
@@ -90,8 +92,9 @@ var arrayMarkers = [
     },
     {   
     title: "Dil Chora Hospital",
-    lat: 9.587817, 
-    lng: 41.859712,
+    lat: 90588098, 
+    lng: 41.859423,
+    myindex: 2,
     streetAddress: "",
     cityAddress: "Dire Dawa",
     url: "https://www.flickr.com/photos/usarmyafrica/5117159529/in/photostream/",
@@ -103,6 +106,7 @@ var arrayMarkers = [
     title: "Hiwot Fana Hospital",
     lat: 9.305251, 
     lng: 42.135059,
+    myindex: 3,
     streetAddress: "Aye Kokohay Street",
     cityAddress: "Dire Dawa",
     url: "http://hospitalnear.com/Ethiopia/Dire_Dawa/Hiwot_Fana_Hospital@ChIJCyZop5e9MRYRa-nDi9d4m-E/",
@@ -114,6 +118,7 @@ var arrayMarkers = [
     title: "Karamardha Hospital",
     lat: 9.359392, 
     lng: 42.135059,
+    myindex: 4,
     streetAddress: "Jijiga Airport",
     cityAddress: "Jijiga, Somali",
     url: "http://www.medpages.co.za/sf/index.php?page=organisation&orgcode=313543",
@@ -125,6 +130,7 @@ var arrayMarkers = [
     title: "Dire Dawa International Airport",
     lat: 9.622794, 
     lng: 41.854158,
+    myindex: 5,
     streetAddress: "",
     cityAddress: "Dire Dawa town",
     url: "http://www.ethiopianairports.gov.et/web/guest/dire",
@@ -136,6 +142,7 @@ var arrayMarkers = [
     title: "ATM Commercial Bank of Ethiopia",
     lat: 9.601645, 
     lng: 41.862588,
+    myindex: 6,
     streetAddress: "",
     cityAddress: "Dire_Dawa",
     url: "http://www.combanketh.et/",
@@ -147,6 +154,7 @@ var arrayMarkers = [
     title: "Taxi Stand",
     lat: 9.594865,
     lng: 41.861790,
+    myindex: 7,
     streetAddress: "",
     cityAddress: "Dire Dawa",
     url: "",
@@ -158,6 +166,7 @@ var arrayMarkers = [
     title: "Gende Kore Shopping Center",
     lat: 9.587434,
     lng: 41.855562,
+    myindex: 8,
     streetAddress: "",
     cityAddress: "Dire Dawa",
     url: "",
@@ -169,7 +178,7 @@ var arrayMarkers = [
 
 //Get Google Street View Image for each inidividual marker
     //Passed lat and lng to get each image location
-
+var numb = 0;
 var headingImageView = [5, 235, 55, 170, 190, 240, -10, 10, 190];     
 var streetViewImage;
 //var streetViewUrl = 'https://maps.googleapis.com/maps/api/streetview?size=180x90&location=';
@@ -192,13 +201,13 @@ function getFlickrImage(location){
 
                 $.getJSON(url1, function(data){
       console.log(data);
-                    var detail = data.photos.photo[0];
-                   if (detail)      {
+                    var detail = data.photos.photo[location.myindex];
+        if (detail)      {
          streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
         '</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' +
         detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' +
         detail.secret + '_n.jpg"></div>';
-      }      else      {
+}   else      {
          streetViewImage= '<div> Nothing Found </div>';
       }      // Fallback for failed request to get an image
    location.contentString = '<img src="' + streetViewImage +
@@ -269,6 +278,7 @@ function setMarkers(location) {
             //zoom in and center location on click
         new google.maps.event.addListener(location[i].holdMarker, 'click', (function(marker, i) {
           return function() {
+            numb = i;
             infowindow.setContent(location[i].contentString);
             infowindow.open(map,this);
             var windowWidth = $(window).width();
