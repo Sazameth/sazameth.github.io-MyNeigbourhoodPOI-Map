@@ -70,6 +70,7 @@ var arrayMarkers = [
     title: "Dire Dawa Qera Condo",
     lat: 9.606779, 
     lng: 41.837256,
+    imgID: 38122158171,
     myindex: 0,
     streetAddress: "Aba Tenna Dejazmatch Yilma Airport",
     cityAddress: "Dire Dawa, Ethiopia",
@@ -83,6 +84,7 @@ var arrayMarkers = [
     lat: 9.593194, 
     lng: 41.866141,
     myindex: 1,
+    imgID: 24270562668,
     streetAddress: "Konel Village",
     cityAddress: "Dire Dawa",
     url: "http://www.medpages.co.za/sf/index.php?page=organisation&orgcode=313086",
@@ -95,6 +97,7 @@ var arrayMarkers = [
     lat: 90588098, 
     lng: 41.859423,
     myindex: 2,
+    imgID: 38452047976,
     streetAddress: "",
     cityAddress: "Dire Dawa",
     url: "https://www.flickr.com/photos/usarmyafrica/5117159529/in/photostream/",
@@ -107,6 +110,7 @@ var arrayMarkers = [
     lat: 9.305251, 
     lng: 42.135059,
     myindex: 3,
+    imgID: 0,
     streetAddress: "Aye Kokohay Street",
     cityAddress: "Dire Dawa",
     url: "http://hospitalnear.com/Ethiopia/Dire_Dawa/Hiwot_Fana_Hospital@ChIJCyZop5e9MRYRa-nDi9d4m-E/",
@@ -119,6 +123,7 @@ var arrayMarkers = [
     lat: 9.359392, 
     lng: 42.135059,
     myindex: 4,
+    imgID: 0,
     streetAddress: "Jijiga Airport",
     cityAddress: "Jijiga, Somali",
     url: "http://www.medpages.co.za/sf/index.php?page=organisation&orgcode=313543",
@@ -131,6 +136,7 @@ var arrayMarkers = [
     lat: 9.622794, 
     lng: 41.854158,
     myindex: 5,
+    imgID: 0,
     streetAddress: "",
     cityAddress: "Dire Dawa town",
     url: "http://www.ethiopianairports.gov.et/web/guest/dire",
@@ -143,6 +149,7 @@ var arrayMarkers = [
     lat: 9.601645, 
     lng: 41.862588,
     myindex: 6,
+    imgID: 0,
     streetAddress: "",
     cityAddress: "Dire_Dawa",
     url: "http://www.combanketh.et/",
@@ -155,6 +162,7 @@ var arrayMarkers = [
     lat: 9.594865,
     lng: 41.861790,
     myindex: 7,
+    imgID: 0,
     streetAddress: "",
     cityAddress: "Dire Dawa",
     url: "",
@@ -167,6 +175,7 @@ var arrayMarkers = [
     lat: 9.587434,
     lng: 41.855562,
     myindex: 8,
+    imgID: 0,
     streetAddress: "",
     cityAddress: "Dire Dawa",
     url: "",
@@ -201,11 +210,12 @@ function getFlickrImage(location){
 
                 $.getJSON(url1, function(data){
       console.log(data);
-                    var detail = data.photos.photo[location.myindex];
+                    var detail = data.photos.photo;
+
         if (detail)      {
          streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
         '</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' +
-        detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' +
+        detail.farm + '.staticflickr.com/' + detail.server + '/' + "?detail.id="+ location.imgID +'_' +
         detail.secret + '_n.jpg"></div>';
 }   else      {
          streetViewImage= '<div> Nothing Found </div>';
@@ -260,12 +270,11 @@ function setMarkers(location) {
         getFlickrImage(location[i]);
         //Binds infoWindow content to each marker
         //Commented for testing
-        //location.contentString = '<img src="' + streetViewImage +
-   // '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom: 5px"><strong>' +
-    //location.title + '</strong><br><p>' +
-   // location.streetAddress + '<br>' +
-   // location.cityAddress + '<br></p><a class="web-links" href="http://' + location.url +
-   // '" target="_blank">' + location.url + '</a>';
+ //       location.contentString = '<img src="' + streetViewImage +
+ //  '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom: 5px"><strong>' +
+//    location.title + '</strong><br><p>' +
+//   location.cityAddress + '<br></p><a class="web-links" href="http://' + location.url +
+//   '" target="_blank">' + location.url + '</a>';
 
 //Testing flickr out (not yet)
 
