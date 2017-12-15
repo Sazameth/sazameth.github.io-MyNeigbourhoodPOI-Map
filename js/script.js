@@ -207,9 +207,8 @@ function getFlickrImage(location) {
 
     $.getJSON(url1, function(data) {
         console.log(data);
-        var detail = data.photos.photo;
-        detail.id = location.imgID;
-
+        var detail = data.photos.photo[location.myindex];
+       
         if (detail) {
             streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
                 '</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' +
