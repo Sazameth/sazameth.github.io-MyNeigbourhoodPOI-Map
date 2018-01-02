@@ -65,14 +65,14 @@ function setAllMap() {
 //Information about the different locations
 //Provides information for the arrayMarkers
 var arrayMarkers = [{
-        title: "Dire Dawa Qera Condo",
-        lat: 9.606779,
-        lng: 41.837256,
-        imgID: 38122158171,
+        title: "Dil Chora Hospital",
+        lat: 90588098,
+        lng: 41.859423,
         myindex: 0,
-        streetAddress: "Aba Tenna Dejazmatch Yilma Airport",
-        cityAddress: "Dire Dawa, Ethiopia",
-        url: "",
+        imgID: 38452047976,
+        streetAddress: "",
+        cityAddress: "Dire Dawa",
+        url: "https://www.flickr.com/photos/usarmyafrica/5117159529/in/photostream/",
         id: "nav0",
         visible: ko.observable(true),
         boolTest: true
@@ -91,14 +91,14 @@ var arrayMarkers = [{
         boolTest: true
     },
     {
-        title: "Dil Chora Hospital",
-        lat: 90588098,
-        lng: 41.859423,
+        title: "Dire Dawa Qera Condo",
+        lat: 9.606779,
+        lng: 41.837256,
+        imgID: 38122158171,
         myindex: 2,
-        imgID: 38452047976,
-        streetAddress: "",
-        cityAddress: "Dire Dawa",
-        url: "https://www.flickr.com/photos/usarmyafrica/5117159529/in/photostream/",
+        streetAddress: "Aba Tenna Dejazmatch Yilma Airport",
+        cityAddress: "Dire Dawa, Ethiopia",
+        url: "",
         id: "nav2",
         visible: ko.observable(true),
         boolTest: true
@@ -108,7 +108,7 @@ var arrayMarkers = [{
         lat: 9.305251,
         lng: 42.135059,
         myindex: 3,
-        imgID: 0,
+        imgID: 24269931638,
         streetAddress: "Aye Kokohay Street",
         cityAddress: "Dire Dawa",
         url: "http://hospitalnear.com/Ethiopia/Dire_Dawa/Hiwot_Fana_Hospital@ChIJCyZop5e9MRYRa-nDi9d4m-E/",
@@ -121,7 +121,7 @@ var arrayMarkers = [{
         lat: 9.359392,
         lng: 42.135059,
         myindex: 4,
-        imgID: 0,
+        imgID: 24270168158,
         streetAddress: "Jijiga Airport",
         cityAddress: "Jijiga, Somali",
         url: "http://www.medpages.co.za/sf/index.php?page=organisation&orgcode=313543",
@@ -134,7 +134,7 @@ var arrayMarkers = [{
         lat: 9.622794,
         lng: 41.854158,
         myindex: 5,
-        imgID: 0,
+        imgID: 26345650289,
         streetAddress: "",
         cityAddress: "Dire Dawa town",
         url: "http://www.ethiopianairports.gov.et/web/guest/dire",
@@ -147,7 +147,7 @@ var arrayMarkers = [{
         lat: 9.601645,
         lng: 41.862588,
         myindex: 6,
-        imgID: 0,
+        imgID: 26345649479,
         streetAddress: "",
         cityAddress: "Dire_Dawa",
         url: "http://www.combanketh.et/",
@@ -160,7 +160,7 @@ var arrayMarkers = [{
         lat: 9.594865,
         lng: 41.861790,
         myindex: 7,
-        imgID: 0,
+        imgID: 24269931168,
         streetAddress: "",
         cityAddress: "Dire Dawa",
         url: "",
@@ -173,7 +173,7 @@ var arrayMarkers = [{
         lat: 9.587434,
         lng: 41.855562,
         myindex: 8,
-        imgID: 0,
+        imgID: 26345043299,
         streetAddress: "",
         cityAddress: "Dire Dawa",
         url: "",
@@ -187,7 +187,7 @@ var arrayMarkers = [{
 //Passed lat and lng to get each image location
 var numb = 0;
 var headingImageView = [5, 235, 55, 170, 190, 240, -10, 10, 190];
-var streetViewImage;
+var streetViewImg;
 //var streetViewUrl = 'https://maps.googleapis.com/maps/api/streetview?size=180x90&location=';
 
 //function determineImage() {
@@ -195,29 +195,32 @@ var streetViewImage;
 //    arrayMarkers[i].lat + ',' + arrayMarkers[i].lng + '&fov=75&heading=' + headingImageView[i] + '&pitch=10';                 
 //}
 
-function getFlickrImage(location) {
-    var base_url = 'https://api.flickr.com/services/rest/?';
-    var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
-    var method = 'flickr.photos.search';
-    var query =
-        marker.title.replace(/ on| in| &/, '');
+function getFlickrImages(location) {
+ //  var base_url = 'https://api.flickr.com/services/rest/?';
+//    var API_KEY = '03a2c46fc1a4fbf4936c5271a4d13e26';
+  //  var method = 'flickr.photos.search';
+ //   var query = marker.title.replace(/ on| in| &/, '');
 
     // Flickr API request url
     var url1 = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=03a2c46fc1a4fbf4936c5271a4d13e26&user_id=150435328@N03&&format=json&nojsoncallback=1';
 
     $.getJSON(url1, function(data) {
         console.log(data);
+        //data.photos.photo.id = location.imgID;
+
         var detail = data.photos.photo[location.myindex];
-       
-        if (detail) {
-            streetViewImage = '<div><strong>' + marker.title + '</strong><br>' +
+        detail.id = location.imgID;
+        console.log(detail.id);
+
+        if (detail){
+            streetViewImg = '<div><strong>' + marker.title + '</strong><br>' +
                 '</div><div id="flckr-img"><img class="infowndw-img" src="https://farm' +
                 detail.farm + '.staticflickr.com/' + detail.server + '/' + detail.id + '_' +
                 detail.secret + '_n.jpg"></div>';
         } else {
-            streetViewImage = '<div> Nothing Found </div>';
-        } // Fallback for failed request to get an image
-        location.contentString = '<img src="' + streetViewImage +
+            streetViewImg = '<div> Nothing Found </div>';
+        }  //Fallback for failed request to get an image
+        location.contentString = '<img src="' + streetViewImg +
             '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
             location.title + '</strong><br><p>' +
             location.streetAddress + '<br>' +
@@ -225,14 +228,15 @@ function getFlickrImage(location) {
             '" target="_blank">' + location.url + '</a>';
 
     }).fail(function() {
-        streetViewImage = '<div>No Flickr Image Found for ' + marker.title + '</div>';
-        location.contentString = '<img src="' + streetViewImage +
-            '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
-            location.title + '</strong><br><p>' +
+       streetViewImg = '<div>No Flickr Image Found for ' + marker.title + '</div>';
+        location.contentString = '<img src="' + streetViewImg +
+           '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
+           location.title + '</strong><br><p>' +
             location.streetAddress + '<br>' +
             location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
             '" target="_blank">' + location.url + '</a>';
-    });
+   }
+    );
 
 
 }
@@ -264,7 +268,7 @@ function setMarkers(location) {
 
         //function to place google street view images within info windows
         //determineImage();
-        getFlickrImage(location[i]);
+        getFlickrImages(location[i]);
         //Binds infoWindow content to each marker
         //Commented for testing
         //       location.contentString = '<img src="' + streetViewImage +
