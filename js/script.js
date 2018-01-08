@@ -220,21 +220,20 @@ function getFlickrImages(location) {
         } else {
             streetViewImg = '<div> Nothing Found </div>';
         }  //Fallback for failed request to get an image
-        location.contentString = '<img src="' + streetViewImg +
-            '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
+       location.contentString = '<img src="' + streetViewImg + '"<strong>' + '<br>' +
             location.title + '</strong><br><p>' +
             location.streetAddress + '<br>' +
             location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
             '" target="_blank">' + location.url + '</a>';
 
     }).fail(function() {
-       streetViewImg = '<div>No Flickr Image Found for ' + marker.title + '</div>';
-        location.contentString = '<img src="' + streetViewImg +
-           '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
-           location.title + '</strong><br><p>' +
-            location.streetAddress + '<br>' +
-            location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
-            '" target="_blank">' + location.url + '</a>';
+        streetViewImg = '<div>No Flickr Image Found for ' + marker.title + '</div>';
+        //location.contentString = '<img src="' + streetViewImg +
+        //    '" alt="Street View Image of ' + location.title + '"><br><hr style="margin-bottom:5   px"><strong>' +
+        //    location.title + '</strong><br><p>' +
+        //    location.streetAddress + '<br>' +
+        //    location.cityAddress + '<br></p><a class="web-links" href="https://' + location.url +
+        //    '" target="_blank">' + location.url + '</a>';
    }
     );
 
